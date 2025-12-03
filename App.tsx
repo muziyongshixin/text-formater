@@ -18,7 +18,6 @@ function App() {
   const AD_CLIENT_ID = "ca-pub-0000000000000000"; 
   
   // YOUR AD SLOT IDs (Create these in AdSense dashboard and replace)
-  const HEADER_AD_SLOT = "1234567890"; 
   const FOOTER_AD_SLOT = "0987654321";
 
   // Debounce detection to avoid lagging on huge text inputs
@@ -108,17 +107,6 @@ function App() {
           </div>
         </div>
         
-        {/* Ad Placeholder (Top Banner - Visible on large screens) */}
-        <div className="hidden lg:flex flex-1 justify-center mx-4 overflow-hidden">
-           <div className="w-[728px] max-w-full">
-             <AdUnit 
-               client={AD_CLIENT_ID} 
-               slot={HEADER_AD_SLOT} 
-               className="bg-slate-900/50 rounded"
-             />
-           </div>
-        </div>
-
         <div className="ml-auto flex items-center gap-4">
           <span className="hidden md:inline text-xs font-medium text-slate-500">
             Formats: JSON · Markdown · HTML · ASCII
@@ -154,13 +142,14 @@ function App() {
       </main>
 
       {/* Footer Ad Placeholder */}
-      <div className="min-h-[60px] border-t border-slate-800 bg-slate-950 shrink-0 flex items-center justify-center p-2">
+      <div className="min-h-[100px] border-t border-slate-800 bg-slate-950 shrink-0 flex flex-col items-center justify-center p-4">
+         <span className="text-[10px] text-slate-600 mb-2 uppercase tracking-widest">Sponsored</span>
          {/* Footer Ad Unit */}
-         <div className="w-full max-w-[970px] overflow-hidden">
+         <div className="w-full flex justify-center overflow-hidden">
             <AdUnit 
               client={AD_CLIENT_ID} 
               slot={FOOTER_AD_SLOT} 
-              className="bg-slate-900/20"
+              className="bg-slate-900/20 rounded-md"
             />
          </div>
       </div>
