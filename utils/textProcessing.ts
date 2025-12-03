@@ -22,6 +22,41 @@ export const decodeEscapedString = (str: string): string => {
 };
 
 /**
+ * Formats HTML string with basic indentation
+ */
+export const formatHtml = (html: string): string => {
+  const tab = '  ';
+  let result = '';
+  let indent = '';
+
+  // Remove whitespace between tags
+  const input = html.replace(/>\s+</g, '><').trim();
+
+  // Split by tags
+  const tokens = input.split(/(<[^>]+>)/g).filter(Boolean);
+
+  tokens.forEach(token => {
+      if (token.match(/^<\//)) {
+          // Closing tag
+          indent = indent.substring(tab.length);
+          result += indent + token + '\n';
+      } else if (token.match(/^<[a-zA-Z][^>]*\/>/) || token.match(/^<(img|br|hr|input|meta|link|base|area|col|embed|param|source|track|wbr|!doctype)/i)) {
+          // Self-closing or void tag
+          result += indent + token + '\n';
+      } else if (token.match(/^<[a-zA-Z][^>]*>/)) {
+          // Opening tag
+          result += indent + token + '\n';
+          indent += tab;
+      } else {
+          // Content
+          result += indent + token + '\n';
+      }
+  });
+
+  return result.trim();
+};
+
+/**
  * Detects the format of the input text and prepares it for rendering.
  */
 export const detectAndParse = (input: string): ParseResult => {
@@ -41,7 +76,13 @@ export const detectAndParse = (input: string): ParseResult => {
     }
   }
 
-  // 2. Check for ASCII/Unicode escapes that need decoding
+  // 2. Check for HTML
+  // Simple heuristic: starts with < and has a tag-like structure
+  if (/^\s*<(!doctype|html|head|body|div|span|p|a|script|style|table|form|img|ul|ol)/i.test(trimmed) || (trimmed.startsWith('<') && trimmed.endsWith('>'))) {
+    return { type: DataType.HTML, content: trimmed, formattedText: formatHtml(trimmed) };
+  }
+
+  // 3. Check for ASCII/Unicode escapes that need decoding
   // Pattern: \uXXXX or literal \n that hasn't been parsed
   if (/\\u[0-9a-fA-F]{4}/.test(input) || input.includes('\\n')) {
      const decoded = decodeEscapedString(input);
@@ -60,13 +101,13 @@ export const detectAndParse = (input: string): ParseResult => {
      }
   }
 
-  // 3. Check for Markdown
+  // 4. Check for Markdown
   // Heuristics: # Headers, **bold**, tables |, lists -, [links]
   if (isMarkdown(input)) {
     return { type: DataType.MARKDOWN, content: input };
   }
 
-  // 4. Default to Text (preserving newlines)
+  // 5. Default to Text (preserving newlines)
   return { type: DataType.TEXT, content: input };
 };
 

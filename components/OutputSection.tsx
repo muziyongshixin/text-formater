@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Copy, Check, Braces, FileType, AlignLeft, AlertCircle, WrapText } from 'lucide-react';
+import { Copy, Check, Braces, FileType, AlignLeft, AlertCircle, WrapText, Code } from 'lucide-react';
 import { DataType, ParseResult } from '../types';
 import { prettifyJsonReadable } from '../utils/textProcessing';
 
@@ -26,6 +26,8 @@ const OutputSection: React.FC<OutputSectionProps> = ({ parseResult, originalText
       // When copying, we usually want valid JSON, so we use standard stringify
       textToCopy = JSON.stringify(parseResult.content, null, 2);
     } else if (activeTab === DataType.ASCII_UNICODE && parseResult.formattedText) {
+      textToCopy = parseResult.formattedText;
+    } else if (activeTab === DataType.HTML && parseResult.formattedText) {
       textToCopy = parseResult.formattedText;
     } else if (typeof parseResult.content === 'string') {
       textToCopy = parseResult.content;
@@ -59,7 +61,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ parseResult, originalText
       const displayString = prettifyJsonReadable(jsonContent);
 
       return (
-        <div className={`p-4 font-mono text-sm h-full ${wrapClass}`}>
+        <div className={`p-4 font-mono text-sm h-full text-slate-300 ${wrapClass}`}>
           <div className="text-emerald-400">
             {displayString}
           </div>
@@ -75,6 +77,16 @@ const OutputSection: React.FC<OutputSectionProps> = ({ parseResult, originalText
           <div className="markdown-body text-slate-300">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
           </div>
+        </div>
+      );
+    }
+
+    // HTML View
+    if (activeTab === DataType.HTML) {
+      const contentToRender = parseResult.formattedText || (typeof parseResult.content === 'string' ? parseResult.content : JSON.stringify(parseResult.content));
+      return (
+        <div className={`p-4 font-mono text-sm text-blue-300 h-full ${wrapClass}`}>
+          {contentToRender}
         </div>
       );
     }
@@ -118,6 +130,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ parseResult, originalText
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
           <TabButton id={DataType.JSON} label="JSON" icon={Braces} />
           <TabButton id={DataType.MARKDOWN} label="Markdown" icon={FileType} />
+          <TabButton id={DataType.HTML} label="HTML" icon={Code} />
           <TabButton id={DataType.ASCII_UNICODE} label="Decoded" icon={AlignLeft} />
           <TabButton id={DataType.TEXT} label="Raw" icon={AlignLeft} />
         </div>
