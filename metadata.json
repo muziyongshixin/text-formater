@@ -1,0 +1,5 @@
+{
+  "name": "DataVisor - Text & Data Formatter",
+  "description": "A smart text visualization tool that automatically detects and formats JSON, Markdown, Unicode/ASCII escapes, and unstructured text into human-readable layouts.",
+  "requestFramePermissions": []
+}

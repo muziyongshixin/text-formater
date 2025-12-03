@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataVisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              slate: {
+                850: '#1e293b',
+                900: '#0f172a',
+                950: '#020617',
+              }
+            }
+          }
+        },
+        darkMode: 'class',
+      }
+    </script>
+    <style>
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e293b; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #64748b; 
+      }
+      
+      /* Markdown Styles */
+      .markdown-body h1 { font-size: 2em; font-weight: 700; margin-bottom: 0.5em; border-bottom: 1px solid #334155; padding-bottom: 0.3em; margin-top: 1em; }
+      .markdown-body h2 { font-size: 1.5em; font-weight: 600; margin-bottom: 0.5em; margin-top: 1em; border-bottom: 1px solid #334155; padding-bottom: 0.3em; }
+      .markdown-body h3 { font-size: 1.25em; font-weight: 600; margin-bottom: 0.5em; margin-top: 1em; }
+      .markdown-body p { margin-bottom: 1em; line-height: 1.6; }
+      .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
+      .markdown-body ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 1em; }
+      .markdown-body blockquote { border-left: 4px solid #3b82f6; padding-left: 1em; color: #94a3b8; font-style: italic; margin-bottom: 1em; }
+      .markdown-body code { background-color: #334155; padding: 0.2em 0.4em; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; }
+      .markdown-body pre { background-color: #1e293b; padding: 1em; border-radius: 8px; overflow-x: auto; margin-bottom: 1em; }
+      .markdown-body pre code { background-color: transparent; padding: 0; }
+      .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 1em; }
+      .markdown-body th, .markdown-body td { border: 1px solid #475569; padding: 8px 12px; text-align: left; }
+      .markdown-body th { background-color: #334155; font-weight: 600; }
+      .markdown-body a { color: #60a5fa; text-decoration: none; }
+      .markdown-body a:hover { text-decoration: underline; }
+      .markdown-body hr { border: 0; border-top: 1px solid #475569; margin: 1.5em 0; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "remark-gfm": "https://aistudiocdn.com/remark-gfm@^4.0.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-slate-950 text-slate-200 h-screen w-screen overflow-hidden selection:bg-blue-500/30">
+    <div id="root"></div>
+  </body>
+</html>
